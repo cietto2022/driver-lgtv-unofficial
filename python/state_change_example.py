@@ -1,25 +1,12 @@
+"""Subscribed state updates example."""
 import asyncio
-from contextlib import suppress
-from datetime import datetime
-
-from websockets.exceptions import ConnectionClosed, ConnectionClosedOK
 
 from aiowebostv import WebOsClient
-from aiowebostv.exceptions import WebOsTvCommandError
-
-WEBOSTV_EXCEPTIONS = (
-    OSError,
-    ConnectionClosed,
-    ConnectionClosedOK,
-    ConnectionRefusedError,
-    WebOsTvCommandError,
-    asyncio.TimeoutError,
-    asyncio.CancelledError,
-)
 
 HOST = "192.168.11.92"
 # For first time pairing set key to None
 CLIENT_KEY = "140cce792ae045920e14da4daa414582"
+
 
 async def on_state_change(client):
     """State changed callback."""
@@ -38,33 +25,20 @@ async def on_state_change(client):
     print(f"Volume: {client.volume}")
     print(f"Sound output: {client.sound_output}")
 
-async def main():
-    """Basic webOS client example."""
 
+async def main():
+    """Subscribe State Updates Example."""
     client = WebOsClient(HOST, CLIENT_KEY)
     await client.register_state_update_callback(on_state_change)
     await client.connect()
 
-    print(client.volume)
-    print(client.current_channel)
-    print(client.power_state)
+    # Store this key for future use
+    print(f"Client key: {client.client_key}")
 
-    apps = await client.get_apps_all()
+    # Change something using the remote during sleep period to get updates
+    await asyncio.sleep(30)
 
-    while True:
-        await asyncio.sleep(1)
-
-        now = datetime.now().strftime("%H:%M:%S")
-        is_connected = client.is_connected()
-        is_on = client.is_on
-
-        print(f"[{now}] Connected: {is_connected}, Powered on: {is_on}")
-
-        if is_connected:
-            continue
-
-        with suppress(*WEBOSTV_EXCEPTIONS):
-            await client.connect()
+    await client.disconnect()
 
 
 if __name__ == "__main__":

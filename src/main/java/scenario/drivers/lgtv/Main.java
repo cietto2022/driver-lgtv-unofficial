@@ -15,13 +15,10 @@ public class Main {
 
     public static void main(String[] args) throws JepException {
         Main main = new Main();
-        try (Interpreter interp = (Interpreter) new SharedInterpreter();) {
+        try (Interpreter interp = new SharedInterpreter();) {
             main.test(interp);
         } catch (Throwable e) {
             e.printStackTrace();
         }
     }
-
-
-
 }
