@@ -16,4 +16,9 @@ public class Publisher {
     public void connect() throws JepException {
         this.interp.exec("lg_tv._loop.run_until_complete(lg_tv.connect())");
     }
+
+    public void setListener(Listener listener) throws JepException {
+        interp.set("java_listener", listener);
+        interp.exec("lg_tv._listener = java_listener");
+    }
 }

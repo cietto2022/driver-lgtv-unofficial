@@ -10,6 +10,7 @@ public class Main {
         LGTV atv = new LGTV();
         Listener listener = new Listener(atv);
         Publisher publisher = new Publisher(interp);
+        publisher.setListener(listener);
         publisher.connect();
     }
 

@@ -27,22 +27,23 @@ class LG_TV:
     def __init__(self):
         self.client = None
         self._loop = asyncio.new_event_loop()
+        self._listener = None
 
     async def on_state_change(self, client):
         """State changed callback."""
-        System.out.println("State changed:")
+        self._listener.notifyUser("State changed:")
         # print(f"System info: {client.system_info}")
         # print(f"Software info: {client.software_info}")
         # print(f"Hello info: {client.hello_info}")
         # print(f"Channel info: {client.channel_info}")
         # print(f"Apps: {client.apps}")
         # print(f"Inputs: {client.inputs}")
-        System.out.println(f"Powered on: {client.power_state}")
+        self._listener.notifyUser(f"Powered on: {client.power_state}")
         # print(f"App Id: {client.current_app_id}")
         # print(f"Channels: {client.channels}")
         # print(f"Current channel: {client.current_channel}")
         # print(f"Muted: {client.muted}")
-        System.out.println(f"Volume: {client.volume}")
+        self._listener.notifyUser(f"Volume: {client.volume}")
         # print(f"Sound output: {client.sound_output}")
 
     async def connect(self):
@@ -54,8 +55,21 @@ class LG_TV:
         self.client = client
 
         # Store this key for future use
-        System.out.println(f"Client key: {self.client.client_key}")
+        self._listener.notifyUser(f"Client key: {self.client.client_key}")
 
-        await asyncio.sleep(30)
+        while True:
+            await asyncio.sleep(2)
+
+            now = datetime.now().strftime("%H:%M:%S")
+            is_connected = client.is_connected()
+            is_on = client.is_on
+
+            System.out.println(f"[{now}] Connected: {is_connected}, Powered on: {is_on}")
+
+            if is_connected:
+                continue
+
+            with suppress(*WEBOSTV_EXCEPTIONS):
+                await client.connect()
 
         # await client.disconnect()
