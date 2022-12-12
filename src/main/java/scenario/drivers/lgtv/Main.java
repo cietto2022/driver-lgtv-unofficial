@@ -8,10 +8,12 @@ public class Main {
 
     private void test(Interpreter interp) throws JepException {
         LGTV atv = new LGTV();
-        Listener listener = new Listener(atv);
+        Listener listener = new Listener(atv, interp);
         Publisher publisher = new Publisher(interp);
         publisher.setListener(listener);
+        //publisher.registerCallback();
         publisher.connect();
+
     }
 
     public static void main(String[] args) throws JepException {

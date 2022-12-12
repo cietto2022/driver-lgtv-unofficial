@@ -25,35 +25,39 @@ WEBOSTV_EXCEPTIONS = (
 class LG_TV:
 
     def __init__(self):
-        self.client = None
         self._loop = asyncio.new_event_loop()
+        self.client = None
         self._listener = None
+
+    async def create_lgtv(self):
+        self.client = WebOsClient(HOST, CLIENT_KEY)
+        await self.client.register_state_update_callback(self.on_state_change)
 
     async def on_state_change(self, client):
         """State changed callback."""
-        self._listener.notify({"client" : client})
-        #self._listener.notifyUser("State changed:")
-        # print(f"System info: {client.system_info}")
-        # print(f"Software info: {client.software_info}")
-        # print(f"Hello info: {client.hello_info}")
-        # print(f"Channel info: {client.channel_info}")
-        # print(f"Apps: {client.apps}")
-        # print(f"Inputs: {client.inputs}")
-        #self._listener.notifyUser(f"Powered on: {client.power_state}")
-        # print(f"App Id: {client.current_app_id}")
-        # print(f"Channels: {client.channels}")
-        # print(f"Current channel: {client.current_channel}")
-        # print(f"Muted: {client.muted}")
-        #self._listener.notifyUser(f"Volume: {client.volume}")
+        self._listener.notifyUser(f"Volume: {client.volume}")
+        self._listener.notify({"volume": client.volume,
+                               #"System info": client.system_info,
+                               #"Software info": client.software_info,
+                               #"Hello info": client.hello_info,
+                               #"Channel info": client.channel_info,
+                               #"Apps": client.apps,
+                               #"Inputs": client.inputs,
+                               #"Volume": client.volume,
+                               #"Powered on": client.power_state,
+                               #"App Id": client.current_app_id,
+                               #"Channels": client.channels,
+                               #"Current channel": client.current_channel,
+                               #"Muted": client.muted,
+                               #"Is connected": client.is_connected(),
+                               "Is on": client.is_on})
         # print(f"Sound output: {client.sound_output}")
 
     async def connect(self):
         """Webos client example."""
-        client = WebOsClient(HOST, CLIENT_KEY)
-        await client.register_state_update_callback(self.on_state_change)
-        await client.connect()
-
-        self.client = client
+        # client = WebOsClient(HOST, CLIENT_KEY)
+        # await client.register_state_update_callback(self.on_state_change)
+        await self.client.connect()
 
         # Store this key for future use
         self._listener.notifyUser(f"Client key: {self.client.client_key}")
@@ -62,15 +66,15 @@ class LG_TV:
             await asyncio.sleep(5)
 
             now = datetime.now().strftime("%H:%M:%S")
-            is_connected = client.is_connected()
-            is_on = client.is_on
+            is_connected = self.client.is_connected()
+            is_on = self.client.is_on
 
-            System.out.println(f"[{now}] Connected: {is_connected}, Powered on: {is_on}")
+            # System.out.println(f"[{now}] Connected: {is_connected}, Powered on: {is_on}")
 
             if is_connected:
                 continue
 
             with suppress(*WEBOSTV_EXCEPTIONS):
-                await client.connect()
+                await self.client.connect()
 
         # await client.disconnect()
