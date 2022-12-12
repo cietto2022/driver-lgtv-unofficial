@@ -21,4 +21,8 @@ public class Publisher {
         interp.set("java_listener", listener);
         interp.exec("lg_tv._listener = java_listener");
     }
+
+    public void getAttribute(){
+
+    }
 }

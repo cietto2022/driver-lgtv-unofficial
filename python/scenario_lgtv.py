@@ -31,19 +31,20 @@ class LG_TV:
 
     async def on_state_change(self, client):
         """State changed callback."""
-        self._listener.notifyUser("State changed:")
+        self._listener.notify({"client" : client})
+        #self._listener.notifyUser("State changed:")
         # print(f"System info: {client.system_info}")
         # print(f"Software info: {client.software_info}")
         # print(f"Hello info: {client.hello_info}")
         # print(f"Channel info: {client.channel_info}")
         # print(f"Apps: {client.apps}")
         # print(f"Inputs: {client.inputs}")
-        self._listener.notifyUser(f"Powered on: {client.power_state}")
+        #self._listener.notifyUser(f"Powered on: {client.power_state}")
         # print(f"App Id: {client.current_app_id}")
         # print(f"Channels: {client.channels}")
         # print(f"Current channel: {client.current_channel}")
         # print(f"Muted: {client.muted}")
-        self._listener.notifyUser(f"Volume: {client.volume}")
+        #self._listener.notifyUser(f"Volume: {client.volume}")
         # print(f"Sound output: {client.sound_output}")
 
     async def connect(self):
@@ -58,7 +59,7 @@ class LG_TV:
         self._listener.notifyUser(f"Client key: {self.client.client_key}")
 
         while True:
-            await asyncio.sleep(2)
+            await asyncio.sleep(5)
 
             now = datetime.now().strftime("%H:%M:%S")
             is_connected = client.is_connected()
