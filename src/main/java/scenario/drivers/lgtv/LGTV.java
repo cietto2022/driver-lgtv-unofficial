@@ -5,8 +5,6 @@ import java.util.Map;
 
 public class LGTV {
     Map<String, Object> metadata = new HashMap<>();
-
     public LGTV() {
     }
-
 }

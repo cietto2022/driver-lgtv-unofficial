@@ -17,10 +17,13 @@ public class Listener implements DriverListener {
     @Override
     public void notify(Map<String, Object> value) {
         value.forEach((s, o) -> {
-            System.out.println("PRINT JAVA:::: " + s + ": " + o);
+            System.out.println("JAVA:::: " + s + ": " + o);
             //PyObject clientPy = interp.getValue("client", PyObject.class);
             //System.out.println(clientPy.getAttr("volume"));
             this.lgtv.metadata.put(s,o);
+            if(s.matches("Is connected")){
+                //this.interp.exec();
+            }
         });
     }
     @Override

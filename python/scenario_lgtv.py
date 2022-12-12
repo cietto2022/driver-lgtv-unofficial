@@ -62,19 +62,15 @@ class LG_TV:
         # Store this key for future use
         self._listener.notifyUser(f"Client key: {self.client.client_key}")
 
-        while True:
-            await asyncio.sleep(5)
+        await asyncio.sleep(60*10)
 
-            now = datetime.now().strftime("%H:%M:%S")
-            is_connected = self.client.is_connected()
-            is_on = self.client.is_on
-
-            # System.out.println(f"[{now}] Connected: {is_connected}, Powered on: {is_on}")
-
-            if is_connected:
-                continue
-
-            with suppress(*WEBOSTV_EXCEPTIONS):
-                await self.client.connect()
-
-        # await client.disconnect()
+        #while True:
+        #    await asyncio.sleep(5)
+#
+        #    is_connected = self.client.is_connected()
+#
+        #    if is_connected:
+        #        continue
+#
+        #    with suppress(*WEBOSTV_EXCEPTIONS):
+        #        await self.client.connect()

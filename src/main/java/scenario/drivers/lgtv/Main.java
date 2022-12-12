@@ -6,13 +6,17 @@ import jep.SharedInterpreter;
 
 public class Main {
 
-    private void test(Interpreter interp) throws JepException {
+    Boolean connected = false;
+
+    private void test(Interpreter interp) throws JepException, InterruptedException {
         LGTV atv = new LGTV();
         Listener listener = new Listener(atv, interp);
         Publisher publisher = new Publisher(interp);
         publisher.setListener(listener);
-        //publisher.registerCallback();
         publisher.connect();
+        Thread.sleep(5000);
+        System.out.println("HERE !!!!!!!!!!!");
+        publisher.button("VOLUMEUP");
 
     }
 
