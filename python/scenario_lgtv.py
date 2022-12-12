@@ -37,19 +37,20 @@ class LG_TV:
         """State changed callback."""
         self._listener.notifyUser(f"Volume: {client.volume}")
         self._listener.notify({"volume": client.volume,
-                               #"System info": client.system_info,
-                               #"Software info": client.software_info,
-                               #"Hello info": client.hello_info,
-                               #"Channel info": client.channel_info,
-                               #"Apps": client.apps,
-                               #"Inputs": client.inputs,
-                               #"Volume": client.volume,
-                               #"Powered on": client.power_state,
-                               #"App Id": client.current_app_id,
-                               #"Channels": client.channels,
-                               #"Current channel": client.current_channel,
-                               #"Muted": client.muted,
-                               #"Is connected": client.is_connected(),
+                               "System info": client.system_info,
+                               "Software info": client.software_info,
+                               "Hello info": client.hello_info,
+                               "Channel info": client.channel_info,
+                               "Apps": client.apps,
+                               "Inputs": client.inputs,
+                               "Volume": client.volume,
+                               "Powered on": client.power_state,
+                               "App Id": client.current_app_id,
+                               "Channels": client.channels,
+                               "Current channel": client.current_channel,
+                               "Muted": client.muted,
+                               "Sound output": client.sound_output,
+                               "Is connected": client.is_connected(),
                                "Is on": client.is_on})
         # print(f"Sound output: {client.sound_output}")
 

@@ -7,6 +7,7 @@ import jep.SharedInterpreter;
 public class Main {
 
     Boolean connected = false;
+    Boolean on = false;
 
     private void test(Interpreter interp) throws JepException, InterruptedException {
         LGTV atv = new LGTV();

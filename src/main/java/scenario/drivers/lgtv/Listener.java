@@ -17,12 +17,13 @@ public class Listener implements DriverListener {
     @Override
     public void notify(Map<String, Object> value) {
         value.forEach((s, o) -> {
-            System.out.println("JAVA:::: " + s + ": " + o);
-            //PyObject clientPy = interp.getValue("client", PyObject.class);
-            //System.out.println(clientPy.getAttr("volume"));
+            //System.out.println("JAVA:::: " + s + ": " + o);
             this.lgtv.metadata.put(s,o);
-            if(s.matches("Is connected")){
-                //this.interp.exec();
+            if(s.matches("Is on") && o.toString().matches("true")){
+                System.out.println(o);
+                System.out.println("TV IS STILL ON!");
+            } else if (s.matches("Is on") && o.toString().matches("false")){
+                System.out.println("TV IS not ON!");
             }
         });
     }
@@ -35,6 +36,25 @@ public class Listener implements DriverListener {
     public void notifyError(String s){
         // send to Log?
         notifyUser("Erro!");
+    }
+
+    public void processMetadata(String s, Object o){
+        switch (s){
+            case "Is on":
+                if (o.toString().matches("true")){
+                    System.out.println("Tv is on");
+                } else {
+                    System.out.println("Tv is off");
+                }
+                break;
+            case "Is connected":
+                if (o.toString().matches("true")){
+                    System.out.println("Tv is connected");
+                } else {
+                    System.out.println("Tv is not connected");
+                }
+                break;
+        }
     }
 
 }
