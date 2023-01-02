@@ -1,4 +1,4 @@
-package scenario.drivers.lgtv;
+package scenario.drivers.lgtv.driver;
 
 import java.util.Map;
 

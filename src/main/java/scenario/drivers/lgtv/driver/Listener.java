@@ -1,7 +1,5 @@
-package scenario.drivers.lgtv;
+package scenario.drivers.lgtv.driver;
 
-import jep.Interpreter;
-import jep.python.PyObject;
 import java.util.Map;
 
 public class Listener implements DriverListener {

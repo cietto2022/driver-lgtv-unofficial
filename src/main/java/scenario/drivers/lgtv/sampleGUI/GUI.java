@@ -1,26 +1,27 @@
 package scenario.drivers.lgtv.sampleGUI;
 
 import jep.Interpreter;
-import jep.SharedInterpreter;
-import scenario.drivers.lgtv.LGTV;
+import scenario.drivers.lgtv.driver.LGTV;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.*;
 
-public class GUI {
+public class GUI extends Thread{
 
+    private Data data;
     private JFrame mainFrame;
     private JLabel headerLabel;
     private JLabel statusLabel;
     private JPanel controlPanel;
     LGTV lgtv;
-    public Interpreter interp;
 
-    public GUI(LGTV lgtv) {
-        Interpreter interp = new SharedInterpreter();
-        prepareGUI();
+    public GUI(LGTV lgtv, Data data){
+        this.data = data;
         this.lgtv = lgtv;
+        prepareGUI();
+        showJPanelDemo();
     }
 
     private void prepareGUI(){
@@ -74,7 +75,6 @@ public class GUI {
             if( command.equals( "VOLUME_UP" ))  {
                 statusLabel.setText("vol up Button clicked.");
                 lgtv.notify("VOLUME_UP");
-                lgtv.update = 1;
             } else if( command.equals( "VOLUME_DOWN" ) )  {
                 statusLabel.setText("vol down Button clicked.");
                 lgtv.notify("VOLUME_DOWN");
@@ -84,8 +84,28 @@ public class GUI {
         }
     }
 
-    public Interpreter getInterp() {
-        return interp;
+    public void run(){
+        String packets[] = {
+                "VOLUME_UP",
+                "VOLUME_UP",
+                "VOLUME_UP",
+                "VOLUME_UP",
+                "VOLUME_UP",
+                "VOLUME_UP",
+                "End"
+        };
+
+        for (String packet : packets) {
+            data.send(packet);
+
+            // Thread.sleep() to mimic heavy server-side processing
+            try {
+                Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5000));
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.err.println("Thread Interrupted");
+            }
+        }
     }
 
 }

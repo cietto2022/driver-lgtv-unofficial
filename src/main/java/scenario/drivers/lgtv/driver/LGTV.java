@@ -1,11 +1,10 @@
-package scenario.drivers.lgtv;
+package scenario.drivers.lgtv.driver;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class LGTV {
 
-    public volatile int update;
     Map<String, Object> metadata = new HashMap<>();
     Publisher publisher;
     String command;
@@ -20,7 +19,7 @@ public class LGTV {
                     System.out.println("Tv is on");
                 } else {
                     System.out.println("Tv is off");
-                    publisher.reconnect();
+                    publisher.connect();
                 }
                 break;
             case "Is connected":
@@ -28,7 +27,7 @@ public class LGTV {
                     System.out.println("Tv is connected");
                 } else {
                     System.out.println("Tv is not connected");
-                    publisher.reconnect();
+                    publisher.connect();
                 }
                 break;
             case "Volume":
@@ -45,14 +44,6 @@ public class LGTV {
     public void notify(String s){
         this.command = s;
         this.processCommand();
-    }
-
-    public int getUpdate() {
-        return update;
-    }
-
-    public void setUpdate(int update) {
-        this.update = update;
     }
 
 }
