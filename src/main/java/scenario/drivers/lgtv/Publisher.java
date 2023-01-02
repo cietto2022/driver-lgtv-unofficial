@@ -26,7 +26,11 @@ public class Publisher {
 
     public void button(String name){
         this.interp.set("buttonName", name);
-        this.interp.exec("asyncio.run(lg_tv.client.button(buttonName)");
+        this.interp.exec("lg_tv._loop.run_until_complete(lg_tv.client.button(buttonName))");
+    }
+
+    public void reconnect(){
+        this.interp.exec("lg_tv._loop.run_until_complete(lg_tv.reconnect())");
     }
 
 
