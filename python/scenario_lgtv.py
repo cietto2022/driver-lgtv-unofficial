@@ -52,7 +52,7 @@ class LG_TV:
         #                       "Sound output": client.sound_output,
         #                       "Is connected": client.is_connected(),
         #                       "Is on": client.is_on})
-        # print(f"Sound output: {client.sound_output}")
+         #print(f"Sound output: {client.sound_output}")
 
     async def connect(self):
         """Webos client example."""
@@ -73,3 +73,6 @@ class LG_TV:
                 break
             with suppress(*WEBOSTV_EXCEPTIONS):
                 await self.client.connect()
+
+    async def sleep(self):
+        await asyncio.sleep(1)

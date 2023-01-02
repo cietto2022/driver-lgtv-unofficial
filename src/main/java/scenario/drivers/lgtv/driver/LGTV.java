@@ -1,5 +1,8 @@
 package scenario.drivers.lgtv.driver;
 
+import jep.Interpreter;
+import jep.SharedInterpreter;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,9 +10,17 @@ public class LGTV {
 
     Map<String, Object> metadata = new HashMap<>();
     Publisher publisher;
-    String command;
-    public LGTV(Publisher publisher) {
-        this.publisher = publisher;
+    Interpreter interp;
+    public LGTV() {
+        this.interp = new SharedInterpreter();
+    }
+
+    public void setupLGTV(){
+        this.publisher = new Publisher(this.interp);
+        //LGTV atv = new LGTV(publisher);
+        Listener listener = new Listener(this);
+        publisher.setListener(listener);
+        publisher.connect();
     }
 
     public void processMetadata(String s, Object o){
@@ -36,14 +47,8 @@ public class LGTV {
         }
     }
 
-    public void processCommand(){
-        //System.out.println("inside process command s =" + this.command);
-        //this.publisher.button(this.command);
-    }
-
-    public void notify(String s){
-        this.command = s;
-        this.processCommand();
+    public void volumeUp(){
+        this.publisher.button("VOLUMEUP");
     }
 
 }

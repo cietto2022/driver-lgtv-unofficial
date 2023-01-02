@@ -3,16 +3,13 @@ package scenario.drivers.lgtv.driver;
 import jep.Interpreter;
 import jep.JepException;
 import jep.SharedInterpreter;
-import scenario.drivers.lgtv.sampleGUI.Data;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Publisher extends Thread{
-    private Data load;
+public class Publisher{
     private Interpreter interp;
-    public Publisher(Data data) throws JepException {
-        this.load = data;
-        this.interp = new SharedInterpreter();
+    public Publisher(Interpreter interp) throws JepException {
+        this.interp = interp;
         String pythonScriptFullPath = "./python/scenario_lgtv.py";
         this.interp.runScript(pythonScriptFullPath);
         this.interp.exec("lg_tv = LG_TV()");
@@ -20,7 +17,6 @@ public class Publisher extends Thread{
     }
 
     public void connect() throws JepException {
-        //this.interp.exec("lg_tv.client = WebOsClient(HOST, CLIENT_KEY)");
         this.interp.exec("lg_tv._loop.run_until_complete(lg_tv.connect())");
     }
 
@@ -38,28 +34,7 @@ public class Publisher extends Thread{
         this.interp.exec("lg_tv._loop.run_until_complete(lg_tv.volume_up())");
     }
 
-
-    @Override
-    public void run() {
-        while (true) {
-            for (String receivedMessage = load.receive();
-                 !"End".equals(receivedMessage);
-                 receivedMessage = load.receive()) {
-
-                System.out.println("receivedMessage = " + receivedMessage);
-
-                if (receivedMessage.equals("VOLUME_UP")) {
-                    this.interp.exec("lg_tv._loop.run_until_complete(lg_tv.volume_up())");
-                }
-
-                //Thread.sleep() to mimic heavy server-side processing
-                try {
-                    Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5000));
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    System.err.println("Thread Interrupted");
-                }
-            }
-        }
+    public void sleep(){
+        this.interp.exec("lg_tv._loop.run_until_complete(lg_tv.sleep())");
     }
 }
