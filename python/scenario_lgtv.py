@@ -33,6 +33,7 @@ class LG_TV:
         self.client = WebOsClient(HOST, CLIENT_KEY)
         await self.client.register_state_update_callback(self.on_state_change)
 
+
     async def on_state_change(self, client):
         """State changed callback."""
         self._listener.notifyUser(f"Volume: {client.volume}")
@@ -76,3 +77,4 @@ class LG_TV:
 
     async def sleep(self):
         await asyncio.sleep(1)
+

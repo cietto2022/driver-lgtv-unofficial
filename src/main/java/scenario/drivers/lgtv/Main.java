@@ -1,11 +1,7 @@
 package scenario.drivers.lgtv;
 
-import jep.Interpreter;
 import jep.JepException;
-import jep.SharedInterpreter;
 import scenario.drivers.lgtv.driver.LGTV;
-import scenario.drivers.lgtv.driver.Listener;
-import scenario.drivers.lgtv.driver.Publisher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,24 +13,19 @@ public class Main {
     List<String> availableCommands = new ArrayList<>();
 
     private void testCommands(LGTV lgtv) throws JepException, InterruptedException {
-
-        lgtv.volumeUp();
-        lgtv.volumeUp();
-        lgtv.volumeUp();
-        lgtv.volumeUp();
-        lgtv.volumeUp();
-        lgtv.volumeUp();
-        lgtv.volumeUp();
-        lgtv.volumeUp();
-        lgtv.volumeUp();
-        lgtv.volumeUp();
-        lgtv.volumeUp();
-        lgtv.volumeUp();
-        lgtv.volumeUp();
-        lgtv.volumeUp();
-        lgtv.volumeUp();
-        lgtv.volumeUp();
-        Thread.sleep(10000);
+        Thread.sleep(1000);
+        System.out.println("before");
+        lgtv.volumeUpReq();
+        Thread.sleep(1000);
+        lgtv.volumeUpReq();
+        Thread.sleep(1000);
+        lgtv.volumeUpReq();
+        Thread.sleep(1000);
+        lgtv.volumeUpReq();
+        Thread.sleep(1000);
+        lgtv.setMuteReq();
+        Thread.sleep(1000);
+        System.out.println("after");
 
         // publisher.sleep ainda permite receber metadados da TV, enquanto Thread.sleep trava completamente o código
     }

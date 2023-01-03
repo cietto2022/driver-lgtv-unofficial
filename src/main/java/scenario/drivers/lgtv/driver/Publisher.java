@@ -2,9 +2,6 @@ package scenario.drivers.lgtv.driver;
 
 import jep.Interpreter;
 import jep.JepException;
-import jep.SharedInterpreter;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Publisher{
     private Interpreter interp;
@@ -30,9 +27,11 @@ public class Publisher{
         this.interp.exec("lg_tv._loop.run_until_complete(lg_tv.client.button(buttonName))");
     }
 
-    public void volume_up(){
-        this.interp.exec("lg_tv._loop.run_until_complete(lg_tv.volume_up())");
+    public void request(String cmd){
+        this.interp.set("cmdName", cmd);
+        this.interp.exec("lg_tv._loop.run_until_complete(lg_tv.client.request(cmdName))");
     }
+
 
     public void sleep(){
         this.interp.exec("lg_tv._loop.run_until_complete(lg_tv.sleep())");
